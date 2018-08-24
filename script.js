@@ -15,8 +15,8 @@ const columnSeven = document.getElementById("column7")
 let gameBoard = [
     [0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0], 
-    [0, 0, 0, 0, 0, 0], 
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0]
@@ -26,30 +26,30 @@ let gameBoard = [
 // function()
 
 
-const columns =  [columnOne, columnTwo, columnThree, columnFour, columnFive, columnSix, columnSeven];
+const columns = [columnOne, columnTwo, columnThree, columnFour, columnFive, columnSix, columnSeven];
 let clickNum = 0;
 
 
-columns.forEach(function playingBoard(column){
-column.addEventListener("click", discDropper)
+columns.forEach(function playingBoard(column) {
+    column.addEventListener("click", discDropper)
 })
 
 function discDropper(event) {
     const column = event.currentTarget;
-    
+
     if (column.childElementCount === 6) {
         return;
     }
     rowIndex = column.childElementCount;
     columnIndex = column.dataset.columnNum;
-    
+
     if (clickNum % 2) {
-        
+
         let redDisc = document.createElement("div");
         redDisc.classList.add("redPiece");
         column.appendChild(redDisc);
         console.log(gameBoard[columnIndex][rowIndex] = "red");
-        
+
     } else {
         let blackDisc = document.createElement("div");
         blackDisc.classList.add("blackPiece");
@@ -62,10 +62,10 @@ function discDropper(event) {
 
 function winChecker() {
     if (
-           matchFourInARow(horizontal)
-        || matchFourInARow(vertical)
-        // || matchFourInARow(diagonalUpRight)
-        // || matchDiagonalUpLeft(DiagonalUpLeft)
+        matchFourInARow(horizontal)
+        || matchFourInARow(vertical, )
+        || matchFourInARow(diagonalUpRight)
+        || matchDiagonalUpLeft(diagonalUpLeft)
     ) {
         console.log("Winner")
     }
@@ -73,7 +73,7 @@ function winChecker() {
 
 function matchFourInARow(searchFunction) {
     for (let columnIndex = 0; columnIndex < gameBoard.length - 3; columnIndex++) {
-        for (let rowIndex = 0; rowIndex < gameBoard[columnIndex].length - 3; rowIndex++) {
+        for (let rowIndex = 0; rowIndex < gameBoard[columnIndex].length; rowIndex++) {
             let cell = gameBoard[columnIndex][rowIndex];
             if (cell !== 0) {
                 const matched = searchFunction(cell, columnIndex, rowIndex);
@@ -84,21 +84,51 @@ function matchFourInARow(searchFunction) {
     return false;
 }
 
+function matchDiagonalUpLeft(searchFunction) {
+    for (let columnIndex = 3; columnIndex < gameBoard.length; columnIndex++) {
+        for (let rowIndex = 0; rowIndex < gameBoard[columnIndex].length - 3; rowIndex++) {
+            let cell = gameBoard[columnIndex][rowIndex];
+            if (cell !== 0) {
+                const matched = searchFunction(cell, columnIndex, rowIndex);
+                if (matched) return true;
+            }
+        }
+    }
+
+    return false;
+}
+
 function horizontal(cell, columnIndex, rowIndex) {
-    if (cell === gameBoard[columnIndex + 1][rowIndex] && cell === gameBoard[columnIndex + 2][rowIndex] && cell === gameBoard[columnIndex +3][rowIndex]) {
-    console.log("yay")
-    return true;
+    if (cell === gameBoard[columnIndex + 1][rowIndex] && cell === gameBoard[columnIndex + 2][rowIndex] && cell === gameBoard[columnIndex + 3][rowIndex]) {
+        console.log("yay")
+        return true;
+    }
+
+    return false;
+
 }
 
-return false;
-
-}
 function vertical(cell, columnIndex, rowIndex) {
     if (cell === gameBoard[columnIndex][rowIndex + 1] && cell === gameBoard[columnIndex][rowIndex + 2] && cell === gameBoard[columnIndex][rowIndex + 3]) {
-    console.log("yay")
-    return true;
+        return true;
+    }
+
+    return false;
+
 }
 
-return false;
+function diagonalUpRight(cell, columnIndex, rowIndex) {
+    if (cell === gameBoard[columnIndex + 1][rowIndex + 1] && cell === gameBoard[columnIndex + 2][rowIndex + 2] && cell === gameBoard[columnIndex + 3][rowIndex + 3]) {
+        return true;
+    }
 
+    return false;
+
+}
+
+function diagonalUpLeft(cell, columnIndex, rowIndex) {
+    if (cell === gameBoard[columnIndex - 1][rowIndex + 1] && cell === gameBoard[columnIndex - 2][rowIndex + 2] && cell === gameBoard[columnIndex - 3][rowIndex + 3]) {
+        return true;
+    }
+    return false;
 }
