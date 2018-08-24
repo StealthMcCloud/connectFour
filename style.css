@@ -1,6 +1,3 @@
-/* Two different colored circles which are all the same size. */
-/* 7 X 6 grid which consists of 7 columns with 6 squares in each */
-
 #wrapper {
     display: flex;
 }
