@@ -63,7 +63,7 @@ function discDropper(event) {
 function winChecker() {
     if (
         matchFourInARow(horizontal)
-        || matchFourInARow(vertical, )
+        || matchFourInARow(vertical)
         || matchFourInARow(diagonalUpRight)
         || matchDiagonalUpLeft(diagonalUpLeft)
     ) {
